@@ -1,0 +1,16 @@
+# 忽略 Python 编译文件
+__pycache__/
+*.py[cod]
+
+# 忽略虚拟环境 (非常重要，否则会有几万个文件)
+venv/
+env/
+.env
+
+# 忽略 IDE 配置
+.vscode/
+.idea/
+
+models/
+wandb/
+output/
