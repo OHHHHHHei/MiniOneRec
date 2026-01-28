@@ -1,16 +1,46 @@
-# 忽略 Python 编译文件
+# --- Python 基础 ---
 __pycache__/
 *.py[cod]
+*$py.class
 
-# 忽略虚拟环境 (非常重要，否则会有几万个文件)
+# --- 虚拟环境 (防止误传环境库) ---
 venv/
 env/
 .env
+.venv/
 
-# 忽略 IDE 配置
+# --- IDE 配置 (个人的编辑器设置不需要上传) ---
 .vscode/
 .idea/
+*.swp
 
+# --- Jupyter Notebook (非常重要) ---
+# 忽略运行产生的临时检查点文件夹
+.ipynb_checkpoints/
+
+# --- 深度学习/大模型项目专用 ---
+
+# 1. 忽略数据集 (通常很大)
+data/
+dataset/
+
+# 2. 忽略训练产物 (权重、日志、结果)
 models/
-wandb/
 output/
+results/
+temp/
+wandb/
+logs/
+
+# 3. 忽略具体的权重文件后缀 (双重保险)
+# 防止有时候手滑把权重放在了根目录
+*.pth
+*.pt
+*.ckpt
+*.safetensors
+*.bin
+*.h5
+
+# --- 操作系统临时文件 ---
+.DS_Store
+Thumbs.db
