@@ -9,7 +9,10 @@ import torch
 # import gensim
 from transformers import AutoModel, AutoTokenizer
 import collections
-import openai
+try:
+    import openai
+except ImportError:
+    openai = None
 import requests
 import json as json_module
 import asyncio

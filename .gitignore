@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Project Data
+# Exclude raw downloads
+data/Amazon/raw/
+
+# Exclude specific dataset folders not currently in use
+data/Amazon/All_Beauty/
+data/Amazon/Sports_and_Outdoors/
+data/Amazon/Toys_and_Games/
+data/Amazon/Beauty/
+
+# Keep current working directory:
+# !data/Amazon/Beauty/
+# !data/Amazon/train/
+# !data/Amazon/test/
+# !data/Amazon/valid/
+# !data/Amazon/index/
+# !data/Amazon/info/
+
+output/
+rq/output/
+
+.ipynb_checkpoints/
