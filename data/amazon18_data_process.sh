@@ -1,5 +1,5 @@
 python amazon18_data_process.py \
-    --dataset Industrial_and_Scientific \
+    --dataset Sports \
     --user_k 5 \
     --item_k 5 \
     --st_year 1996 \

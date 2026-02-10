@@ -1,0 +1,49 @@
+# =========================
+# Python cache
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# =========================
+# Jupyter Notebook
+# =========================
+.ipynb_checkpoints/
+
+# =========================
+# Data files (do not upload datasets)
+# =========================
+data/Amazon18/
+raw_data/
+
+# =========================
+# Output / experiment results
+# =========================
+output/
+
+# =========================
+# Model checkpoints (optional)
+# =========================
+*.pt
+*.pth
+*.ckpt
+
+# =========================
+# Environment files
+# =========================
+.env
+.venv/
+venv/
+conda-meta/
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# IDE
+# =========================
+.vscode/
+.idea/

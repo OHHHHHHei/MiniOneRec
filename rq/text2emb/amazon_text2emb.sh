@@ -1,4 +1,4 @@
-accelerate launch --num_processes 8 amazon_text2emb.py \
-    --dataset Industrial_and_Scientific \
-    --root ../../data/Amazon18/Industrial_and_Scientific \
-    --plm_checkpoint your_emb_model_path
+accelerate launch --num_processes 8 ./rq/text2emb/amazon_text2emb.py \
+    --dataset Sports \
+    --root ./data/Amazon18/Sports \
+    --plm_checkpoint ../Qwen3-Embedding-8B
