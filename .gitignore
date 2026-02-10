@@ -13,6 +13,8 @@ __pycache__/
 # =========================
 # Data files (do not upload datasets)
 # =========================
+# Ignore only Sports dataset
+data/Amazon/*/Sports*
 data/Amazon18/
 raw_data/
 
@@ -20,13 +22,21 @@ raw_data/
 # Output / experiment results
 # =========================
 output/
+logs/
 
 # =========================
-# Model checkpoints (optional)
+# Model checkpoints
 # =========================
 *.pt
 *.pth
 *.ckpt
+*.bin
+*.safetensors
+
+# =========================
+# WandB
+# =========================
+wandb/
 
 # =========================
 # Environment files

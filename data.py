@@ -52,10 +52,12 @@ class BaseDataset(Dataset):
 
     def __len__(self):
         return len(self.data)
-
+        
+    # 同时显示多卡进度
     def get_inputs(self):
         inputs = []
-        for i in tqdm(range(len(self.data))):
+        rank = int(os.environ.get("LOCAL_RANK", 0))
+        for i in tqdm(range(len(self.data)), position=rank, desc=f"GPU {rank}", leave=True):
             inputs.append(self.pre(i))
         self.inputs = inputs
 
