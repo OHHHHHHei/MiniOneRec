@@ -8,6 +8,8 @@ import random
 from tqdm import tqdm
 import os
 import copy
+import pickle
+import hashlib
 import torch.nn.functional as F
 
 class Tokenizer:
@@ -39,6 +41,7 @@ class BaseDataset(Dataset):
         super().__init__()
         self.data = None
         self.inputs = None
+        self._cache_sources = []  # 子类设置数据源文件路径列表
         
         if tokenizer is not None:
             self.tokenizer = Tokenizer(tokenizer)
@@ -52,14 +55,75 @@ class BaseDataset(Dataset):
 
     def __len__(self):
         return len(self.data)
-        
-    # 同时显示多卡进度
+
+    def _get_cache_path(self):
+        """根据类名、数据源文件、关键参数生成缓存文件路径"""
+        if not self._cache_sources:
+            return None
+        # 构建哈希键
+        key_parts = [self.__class__.__name__]
+        for src in self._cache_sources:
+            abs_src = os.path.abspath(src)
+            key_parts.append(abs_src)
+            try:
+                key_parts.append(str(os.path.getmtime(abs_src)))
+            except OSError:
+                key_parts.append("0")
+        key_parts.extend([
+            str(len(self.data)) if self.data is not None else "0",
+            str(self.max_len),
+            str(self.category),
+            str(self.dedup),
+            str(self.test),
+        ])
+        hash_key = hashlib.md5("|".join(key_parts).encode()).hexdigest()
+        # 缓存文件放在第一个数据源文件的同级 .cache 目录下
+        cache_dir = os.path.join(os.path.dirname(os.path.abspath(self._cache_sources[0])), ".cache")
+        return os.path.join(cache_dir, f"{self.__class__.__name__}_{hash_key}.pkl")
+
     def get_inputs(self):
-        inputs = []
         rank = int(os.environ.get("LOCAL_RANK", 0))
+        # 尝试从缓存加载
+        cache_path = self._get_cache_path()
+        if cache_path and os.path.exists(cache_path):
+            try:
+                with open(cache_path, 'rb') as f:
+                    cached = pickle.load(f)
+                self.inputs = cached['inputs']
+                if 'prompt2history' in cached and hasattr(self, 'prompt2history'):
+                    self.prompt2history = cached['prompt2history']
+                if 'history2target' in cached and hasattr(self, 'history2target'):
+                    self.history2target = cached['history2target']
+                if rank == 0:
+                    print(f"[Cache] {self.__class__.__name__} 从缓存加载了 {len(self.inputs)} 条数据")
+                return
+            except Exception as e:
+                if rank == 0:
+                    print(f"[Cache] 缓存加载失败，重新处理: {e}")
+
+        # 正常处理
+        inputs = []
         for i in tqdm(range(len(self.data)), position=rank, desc=f"GPU {rank}", leave=True):
             inputs.append(self.pre(i))
         self.inputs = inputs
+
+        # 只在 rank 0 保存缓存
+        if cache_path and rank == 0:
+            try:
+                cache_data = {'inputs': self.inputs}
+                if hasattr(self, 'prompt2history'):
+                    cache_data['prompt2history'] = self.prompt2history
+                if hasattr(self, 'history2target'):
+                    cache_data['history2target'] = self.history2target
+                os.makedirs(os.path.dirname(cache_path), exist_ok=True)
+                # 写入临时文件后重命名，避免写入中断导致损坏
+                tmp_path = cache_path + ".tmp"
+                with open(tmp_path, 'wb') as f:
+                    pickle.dump(cache_data, f, protocol=pickle.HIGHEST_PROTOCOL)
+                os.replace(tmp_path, cache_path)
+                print(f"[Cache] {self.__class__.__name__} 已缓存 {len(self.inputs)} 条数据到 {cache_path}")
+            except Exception as e:
+                print(f"[Cache] 缓存保存失败: {e}")
 
     def get_all(self):
         temp = []
@@ -91,6 +155,7 @@ class CSVBaseDataset(BaseDataset):
         super().__init__(tokenizer, max_len, test, category, dedup, seed)
 
         self.data = pd.read_csv(train_file)
+        self._cache_sources = [train_file]
         
         if sample > 0:
             self.data = self.data.sample(sample, random_state=seed)
@@ -105,6 +170,7 @@ class JSONBaseDataset(BaseDataset):
             self.item_feat = json.load(f)
         with open(index_file, 'r') as f:
             self.indices = json.load(f)
+        self._cache_sources = [item_file, index_file]
 
 
 class SFTData(CSVBaseDataset):
@@ -1057,6 +1123,7 @@ class RLSidhis2TitleDataset(BaseDataset):
 
         # Initialize CSV part
         self.data = pd.read_csv(train_file)
+        self._cache_sources = [train_file, item_file, index_file]
         if sample > 0:
             self.data = self.data.sample(sample, random_state=seed)
         
@@ -1147,6 +1214,7 @@ class FusionSeqRecDataset(BaseDataset):
         
         # Initialize CSV part
         self.data = pd.read_csv(train_file)
+        self._cache_sources = [train_file, item_file, index_file]
         if sample > 0:
             self.data = self.data.sample(sample, random_state=seed)
         
