@@ -51,7 +51,13 @@ def main(
 ):
     random.seed(seed)
     set_seed(seed)
-    os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+    raw_env_device = os.environ.get("CUDA_VISIBLE_DEVICES", "0")
+    # os.environ["CUDA_VISIBLE_DEVICES"] = "0" # Removed hardcoding
+    # Extract the first GPU ID if multiple are specified (e.g. "0,1")
+    try:
+        gpu_id = int(raw_env_device.split(',')[0])
+    except:
+        gpu_id = 0
     category_dict = {"Industrial_and_Scientific": "industrial and scientific items", "Office_Products": "office products", "Toys_and_Games": "toys and games", "Sports": "sports and outdoors", "Books": "books"}
     category = category_dict[category]
     print(category)
