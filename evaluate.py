@@ -174,6 +174,7 @@ def main(
             pad_token_id = model.config.pad_token_id,
             eos_token_id = model.config.eos_token_id,
             max_new_tokens = max_new_tokens,
+            do_sample=False,
             top_k=None,
             top_p=None,
             **kwargs

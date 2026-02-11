@@ -17,6 +17,10 @@ __pycache__/
 data/Amazon/*/Sports*
 data/Amazon18/
 data/Amazon14/
+data/Amazon/index/.cache/
+data/Amazon/train/.cache/
+data/Amazon/valid/.cache/
+temp/
 data/Amazon14_Processed/
 raw_data/
 
