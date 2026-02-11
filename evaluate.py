@@ -48,6 +48,8 @@ def main(
     length_penalty: float=0.0,
     max_new_tokens: int = 256,
     num_beams: int = 50,
+    temperature: float = 1.0,
+    guidance_scale: float = 1.0,
 ):
     random.seed(seed)
     set_seed(seed)
@@ -240,7 +242,7 @@ def main(
     
     for idx, encodings in enumerate(iterator):
         # Use standard evaluation
-        output = evaluate(encodings, max_new_tokens=max_new_tokens, num_beams=num_beams, length_penalty=length_penalty)
+        output = evaluate(encodings, max_new_tokens=max_new_tokens, num_beams=num_beams, length_penalty=length_penalty, temperature=temperature, guidance_scale=guidance_scale)
         
         outputs = outputs + output
        
