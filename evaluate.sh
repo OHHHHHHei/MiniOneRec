@@ -1,9 +1,9 @@
 # Industrial_and_Scientific
 # Office_Products
-for category in "Sports"
+for category in "Office_Products"
 do
     # your model path
-    exp_name="./output/sft_sports/checkpoint-40413"
+    exp_name="./output/sft_Office_Products_1.7B/final_checkpoint"
 
     exp_name_clean=$(basename "$exp_name")
     echo "Processing category: $category with model: $exp_name_clean (STANDARD MODE)"
