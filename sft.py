@@ -55,6 +55,22 @@ class TokenExtender:
         return self.new_tokens
 
 
+
+class EarlyStoppingLogCallback(EarlyStoppingCallback):
+    def check_metric_value(self, args, state, control, metric_value):
+        should_stop = super().check_metric_value(args, state, control, metric_value)
+        if should_stop:
+            msg = (
+                f"\n{'='*40}\n"
+                f"🛑 [EarlyStopping] Training stopped early!\n"
+                f"   Reason: Validation metric '{args.metric_for_best_model}' has not improved for {self.early_stopping_patience} consecutive evaluations.\n"
+                f"   Current patience usage: {self.early_stopping_patience}/{self.early_stopping_patience}\n"
+                f"{'='*40}\n"
+            )
+            print(msg)
+        return should_stop
+
+
 def set_seed(seed):
     random.seed(seed)
     np.random.seed(seed)
@@ -115,6 +131,7 @@ def train(
     item_meta_path: str = "",
     save_total_limit: int = 2,
     report_to: str = "wandb",
+    early_stopping_patience: int = 3,
 ):
     set_seed(seed)
     os.environ['WANDB_PROJECT'] = wandb_project
@@ -225,6 +242,12 @@ def train(
     print(hf_train_dataset)
     print(hf_val_dataset)
     eval_step = 0.05
+    
+    # Prepare callbacks
+    callbacks = []
+    if early_stopping_patience > 0:
+        callbacks.append(EarlyStoppingLogCallback(early_stopping_patience=early_stopping_patience))
+
     trainer = transformers.Trainer(
         # deepspeed=deepspeed,
         model=model,
@@ -256,7 +279,7 @@ def train(
         data_collator=transformers.DataCollatorForSeq2Seq(
             tokenizer, pad_to_multiple_of=8, return_tensors="pt", padding=True
         ),
-        callbacks = [EarlyStoppingCallback(early_stopping_patience=3)],
+        callbacks = callbacks,
         # optimizers=(optimizer, lr_scheduler) 
     )
     model.config.use_cache = False
