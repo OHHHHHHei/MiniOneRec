@@ -66,6 +66,7 @@ def train(
     item_meta_path: str = "",
     dapo: bool = False,
     gspo: bool = False,
+    save_total_limit: int = 2,
 ):
     torch.backends.cuda.enable_flash_sdp(False)  
     torch.backends.cuda.enable_mem_efficient_sdp(False)
@@ -262,7 +263,7 @@ def train(
 
     training_args = GRPOConfig(output_dir=output_dir,
                                 save_steps=0.1,
-                                save_total_limit=20,
+                                save_total_limit=save_total_limit,
                                 eval_strategy="steps",
                                 max_completion_length=128,
                                 num_generations=num_generations,
