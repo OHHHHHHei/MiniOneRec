@@ -51,6 +51,14 @@ def main(
 ):
     random.seed(seed)
     set_seed(seed)
+    
+    # Add signal handler for Ctrl+C
+    import signal
+    def signal_handler(sig, frame):
+        print("\nCtrl+C pressed. Exiting immediately!")
+        os._exit(0)
+    signal.signal(signal.SIGINT, signal_handler)
+
     raw_env_device = os.environ.get("CUDA_VISIBLE_DEVICES", "0")
     # os.environ["CUDA_VISIBLE_DEVICES"] = "0" # Removed hardcoding
     # Extract the first GPU ID if multiple are specified (e.g. "0,1")
@@ -226,7 +234,11 @@ def main(
         new_encodings.append(encodings[i * batch_size: (i + 1) * batch_size])
 
     
-    for idx, encodings in enumerate(tqdm(new_encodings)):
+    iterator = new_encodings
+    if gpu_id == 0:
+        iterator = tqdm(new_encodings, desc=f"GPU {gpu_id}")
+    
+    for idx, encodings in enumerate(iterator):
         # Use standard evaluation
         output = evaluate(encodings, max_new_tokens=max_new_tokens, num_beams=num_beams, length_penalty=length_penalty)
         
