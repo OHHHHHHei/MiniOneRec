@@ -113,6 +113,8 @@ def train(
     train_from_scratch: bool = False,
     sid_index_path: str = "",
     item_meta_path: str = "",
+    save_total_limit: int = 2,
+    report_to: str = "wandb",
 ):
     set_seed(seed)
     os.environ['WANDB_PROJECT'] = wandb_project
@@ -245,11 +247,11 @@ def train(
             save_strategy="steps",
             save_steps=eval_step,
             output_dir=output_dir,
-            save_total_limit=1,
+            save_total_limit=save_total_limit,
             load_best_model_at_end=True,
             ddp_find_unused_parameters=False if ddp else None,
             group_by_length=group_by_length,
-            report_to="wandb",
+            report_to=report_to,
         ),
         data_collator=transformers.DataCollatorForSeq2Seq(
             tokenizer, pad_to_multiple_of=8, return_tensors="pt", padding=True
