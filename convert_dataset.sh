@@ -3,11 +3,11 @@
 
 PYTHON_SCRIPT="convert_dataset.py"
 
-INPUT_DIR="data/Amazon18/Industrial_and_Scientific"
+INPUT_DIR="data/Amazon18/Toys_and_Games"
 
-OUTPUT_DIR="data/Amazon18"
+OUTPUT_DIR="data/Amazon"
 
-DATASET_NAME="Industrial_and_Scientific"
+DATASET_NAME="Toys_and_Games"
 
 # ===========================================
 

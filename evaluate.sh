@@ -1,6 +1,6 @@
 # Industrial_and_Scientific
-# Office_Products
-for category in "Office_Products"
+# Office_Products Toys_and_Games
+for category in "Toys_and_Games"
 do
     # your model path
     exp_name="./output/RL_Office_1.7B/final_checkpoint"

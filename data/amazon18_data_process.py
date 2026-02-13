@@ -51,7 +51,8 @@ amazon18_dataset2fullname = {
     'Games': 'Video_Games',
     'Sports': 'Sports_and_Outdoors',
     'Instruments': 'Musical_Instruments',
-    'Scientific': 'Scientific'
+    'Scientific': 'Scientific',
+    'Toys_and_Games': 'Toys_and_Games'
 }
 
 

@@ -1,9 +1,11 @@
-python amazon18_data_process.py \
-    --dataset Sports \
+python data/amazon18_data_process.py \
+    --dataset Toys_and_Games \
     --user_k 5 \
     --item_k 5 \
     --st_year 1996 \
     --st_month 10 \
     --ed_year 2018 \
     --ed_month 10 \
-    --output_path ./Amazon18
+    --metadata_file ./raw_data/meta_Toys_and_Games.json \
+    --reviews_file ./raw_data/Toys_and_Games_5.json \
+    --output_path ./data/Amazon18/Toys_and_Games

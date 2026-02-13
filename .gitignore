@@ -23,7 +23,10 @@ data/Amazon/valid/.cache/
 temp/
 data/Amazon14_Processed/
 raw_data/
-
+data/Amazon/info/Toys_and_Games_5_2016-10-2018-11.txt
+data/Amazon/test/Toys_and_Games_5_2016-10-2018-11.csv
+data/Amazon/train/Toys_and_Games_5_2016-10-2018-11.csv
+data/Amazon/valid/Toys_and_Games_5_2016-10-2018-11.csv
 # =========================
 # Output / experiment results
 # =========================
