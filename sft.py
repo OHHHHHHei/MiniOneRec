@@ -25,6 +25,7 @@ from data import D3Dataset, SFTData, SidSFTDataset, SidItemFeatDataset, FusionSe
 import random
 from datasets import Dataset as HFDataset
 from torch.utils.data import ConcatDataset
+from tqdm.auto import tqdm
 
 
 class TokenExtender:
@@ -67,7 +68,7 @@ class EarlyStoppingLogCallback(EarlyStoppingCallback):
                 f"   Current patience usage: {self.early_stopping_patience}/{self.early_stopping_patience}\n"
                 f"{'='*40}\n"
             )
-            print(msg)
+            tqdm.write(msg)
         return should_stop
 
 
