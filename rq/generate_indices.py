@@ -42,7 +42,7 @@ def get_collision_item(all_indices_str):
     return collision_item_groups
 
 dataset = "Toys_and_Games"
-ckpt_path = "./output/Toys_and_Games/Feb-11-2026_19-03-11/best_collision_model.pth"
+ckpt_path = "./output/Toys_and_Games/Feb-13-2026_16-46-29/best_collision_model.pth"
 output_dir = f"./data/Amazon18/Toys_and_Games/"
 output_file = f"{dataset}.index.json"
 output_file = os.path.join(output_dir,output_file)
