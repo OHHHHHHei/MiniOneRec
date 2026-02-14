@@ -1,6 +1,7 @@
 import os
 import sys
 from typing import List
+import logging
 import numpy as np 
 import fire
 import torch
@@ -22,7 +23,9 @@ import torch.nn as nn
 import bitsandbytes as bnb
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from data import D3Dataset, SFTData, SidSFTDataset, SidItemFeatDataset, FusionSeqRecDataset, PreferenceSFTDataset, UserPreference2sidSFTDataset, TitleHistory2SidSFTDataset
-import random
+from torch.utils.data import ConcatDataset
+from transformers.utils import logging
+logger = logging.get_logger(__name__)
 from datasets import Dataset as HFDataset
 from torch.utils.data import ConcatDataset
 from tqdm.auto import tqdm
@@ -68,7 +71,7 @@ class EarlyStoppingLogCallback(EarlyStoppingCallback):
                 f"   Current patience usage: {self.early_stopping_patience}/{self.early_stopping_patience}\n"
                 f"{'='*40}\n"
             )
-            tqdm.write(msg)
+            logger.warning(msg)
         return should_stop
 
 
