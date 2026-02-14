@@ -2,7 +2,7 @@
 
 export NCCL_IB_DISABLE=1        # 完全禁用 IB/RoCE
 
-for category in "Office_Products"; do
+for category in "Toys_and_Games"; do
     train_file=$(ls -f ./data/Amazon/train/${category}*.csv)
     eval_file=$(ls -f ./data/Amazon/valid/${category}*11.csv)
     info_file=$(ls -f ./data/Amazon/info/${category}*.txt)
@@ -11,7 +11,7 @@ for category in "Office_Products"; do
                                     --config_file ./config/zero2_opt.yaml \
                                     --num_processes 4 --main_process_port 29503 \
                                     rl.py \
-                        --model_path ./output/sft_Office_Products_1.7B/final_checkpoint \
+                        --model_path ./output/sft_Toys_and_Games_1.7B/final_checkpoint \
                         --train_batch_size 64 \
                         --eval_batch_size 128 \
                         --num_train_epochs 2 \
@@ -34,8 +34,9 @@ for category in "Office_Products"; do
                         --add_gt False \
                         --beta 1e-3 \
                         --dapo False \
-                        --output_dir ./output/RL_Office_1.7B \
-                        --wandb_run_name RL_A100 \
-                        --sid_index_path ./data/Amazon/index/Office_Products.index.json \
-                        --item_meta_path ./data/Amazon/index/Office_Products.item.json
+                        --output_dir ./output/RL_Toys_and_Games_1.7B \
+                        --wandb_project MiniOneRec \
+                        --wandb_run_name RL_Toys_and_Games_A100 \
+                        --sid_index_path ./data/Amazon18/Toys_and_Games/Toys_and_Games.index.json \
+                        --item_meta_path ./data/Amazon18/Toys_and_Games/Toys_and_Games.item.json
 done
