@@ -1,9 +1,9 @@
 # Industrial_and_Scientific
 # Office_Products Toys_and_Games
-for category in "Toys_and_Games"
+for category in "Office_Products"
 do
     # your model path
-    exp_name="./output/sft_Toys_and_Games_1.7B/final_checkpoint"
+    exp_name="./output/sft_Office_Products_1.7B/final_checkpoint"
 
     exp_name_clean=$(basename "$exp_name")
     echo "Processing category: $category with model: $exp_name_clean (STANDARD MODE)"
@@ -49,7 +49,7 @@ do
                 --num_beams 50 \
                 --max_new_tokens 256 \
                 --temperature 1.0 \
-                --guidance_scale 1.0 \
+                --guidance_scale None \
                 --length_penalty 0.0 &
         else
             echo "Warning: Split file $temp_dir/${i}.csv not found, skipping GPU $i"

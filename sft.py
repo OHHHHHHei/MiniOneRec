@@ -5,6 +5,7 @@ import logging
 import numpy as np 
 import fire
 import torch
+import random
 import transformers
 from datasets import load_dataset, concatenate_datasets
 from transformers import EarlyStoppingCallback, AutoConfig
