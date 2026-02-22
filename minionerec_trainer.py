@@ -489,7 +489,7 @@ class ReReTrainer(Trainer):
                     top_k=None,
                     top_p=None,
                     temperature=self.temperature,
-                    do_sample=True,
+                    do_sample=False,
                     # temperature=self.temperature,
                     # do_sample=True, # if self.temperature > 1.0 else False,
                 )

@@ -28,7 +28,7 @@ for category in "Industrial_and_Scientific"; do
                         --dynamic_sampling False \
                         --sync_ref_model True \
                         --beam_search True \
-                        --test_during_training False \
+                        --test_during_training True \
                         --temperature 1.0 \
                         --learning_rate 1e-5 \
                         --add_gt False \
