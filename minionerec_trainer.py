@@ -575,6 +575,8 @@ class ReReTrainer(Trainer):
                                                             length_penalty=self.length_penalty,
                                                             num_beams=self.test_beam,
                                                             num_return_sequences=self.test_beam,
+                                                            top_k=None,
+                                                            top_p=None,
                                                             do_sample=False,
                                                             pad_token_id=self.processing_class.pad_token_id,
                                                             eos_token_id=self.processing_class.eos_token_id,)
