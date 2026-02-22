@@ -684,18 +684,21 @@ class ReReTrainer(Trainer):
             prompt_ids = prompt_ids[:, -self.max_prompt_length :]
             prompt_mask = prompt_mask[:, -self.max_prompt_length :]
 
-        ccc = ConstrainedLogitsProcessor(
-                # guidance_scale=1.0,
-                # cf_logits=None,
+        ccc_train = ConstrainedLogitsProcessor(
                 prefix_allowed_tokens_fn=self.prefix_allowed_tokens_fn,
-                # cf_dict=sasrec_dict,
-                # unconditional_ids=None,
                 num_beams=self.num_generations if self.beam_search else 1,
                 base_model=self.base_model,
                 eos_token_id=self.processing_class.eos_token_id
             )
-        self.logits_processor = LogitsProcessorList([TemperatureLogitsWarper(temperature=self.temperature), ccc])
-        self.test_lp_list = LogitsProcessorList([ccc])
+        self.logits_processor = LogitsProcessorList([TemperatureLogitsWarper(temperature=self.temperature), ccc_train])
+        
+        ccc_test = ConstrainedLogitsProcessor(
+                prefix_allowed_tokens_fn=self.prefix_allowed_tokens_fn,
+                num_beams=self.test_beam,
+                base_model=self.base_model,
+                eos_token_id=self.processing_class.eos_token_id
+            )
+        self.test_lp_list = LogitsProcessorList([ccc_test])
 
         # Generate completions using either vLLM or regular generation
         if self.args.use_vllm:
