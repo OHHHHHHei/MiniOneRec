@@ -1360,7 +1360,7 @@ Can you recommend the next item for the user based on their interaction history?
             return None
         
         # Randomly choose between title and description tasks
-        """if random.random() < 0.5:
+        if random.random() < 0.5:
             # Title task
             prompt = self.generate_prompt_title(history_data['history_str'])
             target = history_data['target_title'] + '\n'
@@ -1368,9 +1368,6 @@ Can you recommend the next item for the user based on their interaction history?
             # Description task
             prompt = self.generate_prompt_description(history_data['history_str'])
             target = history_data['target_description'] + '\n'
-        """
-        prompt = self.generate_prompt_title(history_data['history_str'])
-        target = history_data['target_title'] + '\n'
         # print("fusion prompt: ", prompt)
 
         formatted_prompt = self.generate_formatted_prompt(prompt, "")
