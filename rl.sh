@@ -2,7 +2,7 @@
 
 export NCCL_IB_DISABLE=1        # 完全禁用 IB/RoCE
 
-for category in "Industrial_and_Scientific"; do
+for category in "Toys_and_Games"; do
     train_file=$(ls -f ./data/Amazon/train/${category}*.csv)
     eval_file=$(ls -f ./data/Amazon/valid/${category}*11.csv)
     info_file=$(ls -f ./data/Amazon/info/${category}*.txt)
@@ -11,7 +11,7 @@ for category in "Industrial_and_Scientific"; do
                                     --config_file ./config/zero2_opt.yaml \
                                     --num_processes 4 --main_process_port 29503 \
                                     rl.py \
-                        --model_path ./output/sft_Industrial_and_Scientifics_1.7B/final_checkpoint \
+                        --model_path ./output/sft_Toys_and_Games_1.7B/final_checkpoint \
                         --train_batch_size 64 \
                         --eval_batch_size 128 \
                         --num_train_epochs 2 \
@@ -20,7 +20,7 @@ for category in "Industrial_and_Scientific"; do
                         --eval_file ${eval_file} \
                         --info_file ${info_file} \
                         --category ${category} \
-                        --sample_train False \
+                        --sample_train True \
                         --eval_step 0.0999 \
                         --reward_type ranking \
                         --num_generations 8 \
@@ -34,9 +34,9 @@ for category in "Industrial_and_Scientific"; do
                         --add_gt False \
                         --beta 1e-3 \
                         --dapo False \
-                        --output_dir ./output/RL_sft_Industrial_and_Scientifics_1.7B \
+                        --output_dir ./output/RL_Toys_and_Games_1.7B_do_sample_False \
                         --wandb_project MiniOneRec \
-                        --wandb_run_name RL_Toys_and_Games_A100 \
-                        --sid_index_path ./data/Amazon/index/Industrial_and_Scientific.index.json \
-                        --item_meta_path ./data/Amazon/index/Industrial_and_Scientific.item.json
+                        --wandb_run_name RL_Toys_and_Games_A100_do_sample_False \
+                        --sid_index_path ./data/Amazon18/Toys_and_Games/Toys_and_Games.index.json \
+                        --item_meta_path ./data/Amazon18/Toys_and_Games/Toys_and_Games.item.json
 done

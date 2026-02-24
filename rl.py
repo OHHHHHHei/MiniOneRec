@@ -107,7 +107,7 @@ def train(
     train_dataset = Dataset.from_dict({k : [elm[k] for elm in train_data] for k in train_data[0].keys()})
     train_dataset = train_dataset.shuffle(seed=seed) 
     if sample_train and "sft" in model_path:
-        train_dataset = train_dataset.select(range(int(0.5 * len(train_dataset)), len(train_dataset)))
+        train_dataset = train_dataset.select(range(int(0.2 * len(train_dataset)), len(train_dataset)))
     eval_dataset = Dataset.from_dict({k : [elm[k] for elm in eval_data] for k in eval_data[0].keys()})
     eval_dataset = eval_dataset.shuffle(seed=seed)
     
