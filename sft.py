@@ -136,7 +136,7 @@ def train(
     item_meta_path: str = "",
     save_total_limit: int = 2,
     report_to: str = "wandb",
-    early_stopping_patience: int = 5,
+    early_stopping_patience: int = 3,
 ):
     set_seed(seed)
     os.environ['WANDB_PROJECT'] = wandb_project

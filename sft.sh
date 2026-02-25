@@ -10,13 +10,13 @@ for category in "Industrial_and_Scientific"; do
     torchrun --nproc_per_node 4 \
             sft.py \
             --base_model ../Qwen3-1.7B \
-            --batch_size 128 \
-            --micro_batch_size 8 \
+            --batch_size 1024 \
+            --micro_batch_size 4 \
             --train_file ${train_file} \
             --eval_file ${eval_file} \
-            --output_dir output/sft_Industrial_and_Scientifics_1.7B \
+            --output_dir output/sft_Industrial_and_Scientifics_1.7B_align \
             --wandb_project MiniOneRec \
-            --wandb_run_name train_Industrial_and_Scientific_A100 \
+            --wandb_run_name train_Industrial_and_Scientific_A100_align \
             --category ${category} \
             --train_from_scratch False \
             --seed 42 \
