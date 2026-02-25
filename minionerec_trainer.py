@@ -789,31 +789,10 @@ class ReReTrainer(Trainer):
                     dedup_prompt_ids = torch.stack(dedup_prompt).to(device)
                     dedup_prompt_mask = torch.stack(dedup_mask).to(device)
                     # print(f"dedup_prompt_ids: {dedup_prompt_ids.shape}")
-                    # ====== DEBUG DO_SAMPLE (INJECTED) ======
-                    print("\n" + "="*60)
-                    print(f"【诊断】当前 generation_config 的 do_sample 值: {self.generation_config.do_sample}")
-                    print("【诊断】正在使用约束生成 8 条候选轨迹...")
-                    print("="*60 + "\n")
-                    
                     prompt_completion_ids = unwrapped_model.generate(
                         dedup_prompt_ids, attention_mask=dedup_prompt_mask, generation_config=self.generation_config,
                         logits_processor=self.logits_processor,
                     )
-                    
-                    # 打印出由模型生成的第一个样本的 8 条轨迹
-                    if self.base_model.lower().find("llama")>-1:
-                        diag_completions = self.processing_class.batch_decode(prompt_completion_ids[:8], skip_special_tokens=True, clean_up_tokenization_spaces=False)
-                    else:
-                        diag_completions = self.processing_class.batch_decode(prompt_completion_ids[:8], skip_special_tokens=True)
-                        
-                    print("\n" + "-"*40)
-                    print(f"【诊断】基于 do_sample={self.generation_config.do_sample} 生成的前 8 个结果:")
-                    for idx, comp in enumerate(diag_completions):
-                        # 只截取 Response 之后的部分以简化显示
-                        res_part = comp.split("Response:\n")[-1].strip()
-                        print(f"Beam {idx+1}: {repr(res_part)}")
-                    print("-"*40 + "\n")
-                    # ========================================
                     # print(f"prompt_ids: {prompt_ids.shape}")
                     # print(f"prompt_completion_ids: {prompt_completion_ids.shape}")
                 else:
