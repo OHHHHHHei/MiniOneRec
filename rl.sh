@@ -34,9 +34,9 @@ for category in "Industrial_and_Scientific"; do
                         --add_gt False \
                         --beta 1e-3 \
                         --dapo False \
-                        --output_dir ./output/RL_Industrial_and_Scientific_1.7B_do_sample_False_align \
+                        --output_dir ./output/RL_Industrial_and_Scientific_1.7B_do_sample_True_align \
                         --wandb_project MiniOneRec \
-                        --wandb_run_name RL_Industrial_and_Scientific_A100_do_sample_False_align \
+                        --wandb_run_name RL_Industrial_and_Scientific_A100_do_sample_True_align \
                         --sid_index_path ./data/Amazon/index/Industrial_and_Scientific.index.json \
                         --item_meta_path ./data/Amazon/index/Industrial_and_Scientific.item.json
 done

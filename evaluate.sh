@@ -3,7 +3,7 @@
 for category in "Industrial_and_Scientific"
 do
     # your model path
-    exp_name="./output/RL_Industrial_and_Scientific_1.7B_do_sample_False_align/final_checkpoint"
+    exp_name="./output/RL_Industrial_and_Scientific_1.7B_do_sample_True_align/final_checkpoint"
 
     exp_name_clean=$(basename "$exp_name")
     echo "Processing category: $category with model: $exp_name_clean (STANDARD MODE)"
