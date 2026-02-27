@@ -67,6 +67,7 @@ def train(
     dapo: bool = False,
     gspo: bool = False,
     save_total_limit: int = 2,
+    resume_from_checkpoint: str = None,
 ):
     torch.backends.cuda.enable_flash_sdp(False)  
     torch.backends.cuda.enable_mem_efficient_sdp(False)
@@ -305,7 +306,11 @@ def train(
         args=training_args,
     )
 
-    trainer.train()
+    if resume_from_checkpoint:
+        print(f"Resuming training from checkpoint: {resume_from_checkpoint}")
+        trainer.train(resume_from_checkpoint=resume_from_checkpoint)
+    else:
+        trainer.train()
 
     trainer.save_model(output_dir)
 
