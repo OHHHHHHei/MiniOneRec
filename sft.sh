@@ -1,6 +1,6 @@
 export NCCL_IB_DISABLE=1        # 完全禁用 IB/RoCE
 # Office_Products, Industrial_and_Scientific Sports Toys_and_Games
-for category in "Toys_and_Games"; do
+for category in "Industrial_and_Scientific" ; do
     train_file=$(ls -f ./data/Amazon/train/${category}*11.csv)
     eval_file=$(ls -f ./data/Amazon/valid/${category}*11.csv)
     test_file=$(ls -f ./data/Amazon/test/${category}*11.csv)
@@ -14,13 +14,13 @@ for category in "Toys_and_Games"; do
             --micro_batch_size 4 \
             --train_file ${train_file} \
             --eval_file ${eval_file} \
-            --output_dir output/sft_Toys_and_Games_1.7B_align \
+            --output_dir output/sft_${category}_1.7B_noalign_2 \
             --wandb_project MiniOneRec \
-            --wandb_run_name train_Toys_and_Games_A100_align \
+            --wandb_run_name train_${category}_A100_noalign \
             --category ${category} \
             --train_from_scratch False \
             --seed 42 \
-            --sid_index_path ./data/Amazon18/Toys_and_Games/Toys_and_Games.index.json \
-            --item_meta_path ./data/Amazon18/Toys_and_Games/Toys_and_Games.item.json \
+            --sid_index_path ./data/Amazon/index/${category}.index.json \
+            --item_meta_path ./data/Amazon/index/${category}.item.json \
             --freeze_LLM False
 done
