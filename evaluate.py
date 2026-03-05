@@ -172,10 +172,6 @@ def main(
             length_penalty=1.0,
             **kwargs,
     ):
-        generation_kwargs = dict(kwargs)
-        # Keep deterministic beam decoding behavior: temperature is irrelevant when do_sample=False.
-        generation_kwargs.pop("temperature", None)
-
         maxLen = max([len(_["input_ids"]) for _ in encodings])
 
         padding_encodings = {"input_ids": []}
@@ -197,7 +193,7 @@ def main(
             do_sample=False,
             top_k=None,
             top_p=None,
-            **generation_kwargs
+            **kwargs
         )
         
         with torch.no_grad():
