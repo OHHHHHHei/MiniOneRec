@@ -578,6 +578,8 @@ class ReReTrainer(Trainer):
                                                             top_k=None,
                                                             top_p=None,
                                                             do_sample=False,
+                                                            top_k=None,
+                                                            top_p=None,
                                                             pad_token_id=self.processing_class.pad_token_id,
                                                             eos_token_id=self.processing_class.eos_token_id,)
 
